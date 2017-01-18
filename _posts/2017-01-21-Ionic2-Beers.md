@@ -166,6 +166,7 @@ Save changes.
 ### Menu
 
 First, we're going to add the menu to the app. For that, open `app/app.html` and replace code
+
 ```
 <ion-menu [content]="content">
     <ion-header>
@@ -261,7 +262,7 @@ Open `index.html` and add lines to link script
 <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 ```
 
-Create new files that contain translated labels in a new directory `languages`, for example `en.json`
+Create new files that contain translated labels in a new directory `i18n`, for example `en.json`
 
 ```
 {
