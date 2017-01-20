@@ -34,7 +34,6 @@ Run the application on desktop browser
 ionic serve --lab
 ```
 
-
 > Note: To run the application in the Android emulator, you need to have the Android SDK
 > installed and configured on your computer.
 > The easiest way to do it is to install [Android Studio](http://developer.android.com/tools/studio/index.html)
@@ -108,7 +107,6 @@ Inside  the project folder there are 8 sub-folders: `hooks`, `node_modules`, `pl
 
 Inside the `src` folder is a file called `index.html` which has the default application code. Finally `app/main.ts` contains the code to start the application with the defined modules.
 
-
 ## Designing the app
 
 ### Beers list
@@ -165,7 +163,7 @@ Save changes.
 
 ### Menu
 
-First, we're going to add the menu to the app. For that, open `app/app.html` and replace code
+First, we're going to add the menu to the app. For that, open `app/app.html` and replace code with this code
 
 ```
 <ion-menu [content]="content">
@@ -215,10 +213,48 @@ Open `app/app.component.ts` and add this code in the constructor
 
 Save changes and run the app. It should look this way.
 
-![Get beers list](../img/2017-01-21-getBeersList.png)
+![Get beers list](../img/2015-12-04-getBeersList.png)
 
 
 ## Fetching data from Beer catalog
+
+In the first step, we load beers catalog in a static page. Now, we load this catalog from the controller.
+First, open `pages/beers/beers.ts` and add the code in the constructor
+
+```
+this.beers = [
+  {
+    alcohol: 8.5,
+    name: 'Affligem Tripel',
+    description: 'The king of the abbey beers. It is amber-gold and pours with a deep head and original aroma, delivering a complex, full bodied flavour. Pure enjoyment! Secondary fermentation in the bottle.'
+  },
+  {
+    alcohol: 9.2,
+    name: 'Rochefort 8',
+    description: 'A dry but rich flavoured beer with complex fruity and spicy flavours.'
+  },
+  {
+    alcohol: 7,
+    name: 'Chimay Rouge',
+    description: 'This Trappist beer possesses a beautiful coppery colour that makes it particularly attractive. Topped with a creamy head, it gives off a slight fruity apricot smell from the fermentation. The aroma felt in the mouth is a balance confirming the fruit nuances revealed to the sense of smell. This traditional Belgian beer is best savoured at cellar temperature.'
+  }
+];
+```
+
+Then open `pages/beers/beers.html` and modify the display list construction like this
+
+```
+<ul>
+    <li *ngFor="let beer of beers">
+        <span>{{beer.name}}</span>
+        <p>
+            {{beer.description}}
+        </p>
+    </li>
+</ul>
+
+<p>Total number of beers: {{beers.length}}</p>
+```
 
 ## Translate labels
 
@@ -228,41 +264,27 @@ Now the application needs to be translated for users all around the world. For t
 npm install ng2-translate --save
 ```
 
-Open `app.js` file  and update
+Open `app/app.component.ts` file  and add
 
 ```
-angular.module('ionicbeers', ['ionic','pascalprecht.translate'])
+import { TranslateService } from 'ng2-translate/ng2-translate';
 ```
 
-and add lines after `$urlRouterProvider`
+and add parameter to the constructor
 
 ```
-// Translate labels / title / menus
-$translateProvider.useSanitizeValueStrategy('escape');
-$translateProvider.useStaticFilesLoader({declarations
-    prefix: 'languages/',
-    suffix:'.json'
-});
-$translateProvider
-.registerAvailableLanguageKeys(['en','fr'], {
-    'en_US': 'en',
-    'en_UK': 'en',
-    'fr_FR': 'fr',
-    'fr_BE': 'fr'
-})
-.determinePreferredLanguage();
-
-$translateProvider.use();
+constructor(translate: TranslateService, public platform: Platform) {
 ```
 
-Open `index.html` and add lines to link script
+and set default language in the constructor
 
 ```
-<script src="lib/angular-translate/angular-translate.js"></script>
-<script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+// set default language
+translate.setDefaultLang('en');
+translate.use(translate.getBrowserLang());
 ```
 
-Create new files that contain translated labels in a new directory `i18n`, for example `en.json`
+Create new files that contain translated labels in a new directory `i18n` in `assets` directory, for example `en.json`
 
 ```
 {
@@ -276,7 +298,7 @@ Create new files that contain translated labels in a new directory `i18n`, for e
 }
 ```
 
-Update `home.html` file to translate labels
+Update `pages/home/home.html` file to translate labels
 
 ```
 {{'content' | translate}}
