@@ -213,7 +213,7 @@ Open `app/app.component.ts` and add this code in the constructor
 
 Save changes and run the app. It should look this way.
 
-![Get beers list](../img/2015-12-04-getBeersList.png)
+![Get beers list](../img/2017-01-21-getBeersList.png)
 
 
 ## Fetching data from Beer catalog
