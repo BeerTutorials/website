@@ -153,7 +153,7 @@ Open `pages/beers/beers.html` and add the code which define the beers list to di
 </ion-content>
 ```
 
-Now, we need to add this new page to the application. Open `app/app.component.ts` and add after the import of the BeersPage
+Now, we need to add this new page to the application. Open `app/app.component.ts` and add after the import of the HomePage
 
 ```
 import { BeersPage } from '../pages/beers/beers';
